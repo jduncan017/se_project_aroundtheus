@@ -27,7 +27,7 @@
 
 .profile__title {
   margin: 0;
-  font-family: Inter;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 42px;
   font-weight: 500;
   line-height: 1.14;
@@ -36,7 +36,7 @@
 
 .profile__description {
   margin: 0;
-  font-family: Inter;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 18px;
   font-weight: 400;
   grid-area: description;
