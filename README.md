@@ -1,21 +1,26 @@
 # Project 3: Around The U.S.
 
-### Overview  
+## Project Features
 
-* Intro  
-* Figma  
-* Images  
-  
-**Intro**
-  
-This project is made so all the elements are displayed correctly on popular screen sizes. We recommend investing more time in completing this project, since it's more difficult than previous ones.  
-  
-**Figma**  
-  
-* [Link to the project on Figma](https://www.figma.com/file/ii4xxsJ0ghevUOcssTlHZv/Sprint-3%3A-Around-the-US?node-id=0%3A1)  
-  
-**Images**  
-  
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster. 
-  
-Good luck and have fun!
+- Semantic HTML5
+- Flexbox
+- Grid
+- Flat BEM
+
+### Overview
+
+- Intro
+- Figma
+- Images
+
+#### Plans for Improvement
+
+Some CSS animations to display the cards would be a fun addition. I also think the profile could live in the top right in the header and the "add button" could be moved and made smaller with maybe some other functionality. The site is a little basic and some extra styling could go a long way. I'd also like for the buttons to fill in on hover!
+
+**Description**
+
+This project is made so all the elements are displayed correctly on popular screen sizes. I added media queries at page size increments to keep the page responsive at all screen sizes. The page looks as desired at all screen widths & heights!
+
+**Link to Github Codebase**
+
+- https://github.com/jduncan017/se_project_aroundtheus
