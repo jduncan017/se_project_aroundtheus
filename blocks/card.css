@@ -7,6 +7,7 @@
 }
 
 .card__image {
+  height: 282px;
 }
 
 .card__info {
@@ -15,7 +16,6 @@
 }
 
 .card__description {
-  height: 79px;
   padding: 0px 20px;
   background-color: white;
   color: black;
