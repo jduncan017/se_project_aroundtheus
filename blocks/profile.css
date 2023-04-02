@@ -93,7 +93,7 @@
   }
 
   .profile__name {
-    justify-content: center;
+    align-self: center;
   }
 
   .profile__name-title {
