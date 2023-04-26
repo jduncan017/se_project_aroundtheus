@@ -1,0 +1,117 @@
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal_opened {
+  display: flex;
+}
+
+.modal__container {
+  background-color: #fff;
+  position: absolute;
+  top: 195px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 430px;
+  height: 330px;
+  border-radius: 10px;
+}
+
+.modal__title {
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: black;
+  margin: 34px 36px 24.26px;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 358px;
+  margin: 0 36px 36.51px;
+}
+
+.modal__close-button {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../images/Close-Icon.svg");
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.edit-profile-form__input {
+  display: block;
+  width: 100%;
+  padding: 0 0 13.26px;
+  margin-top: 29.74px;
+  border: none;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.edit-profile-form__submit-button {
+  margin-top: 48px;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+}
+
+@media screen and (min-width: 320px) and (max-width: 595px) {
+  .modal__container {
+    width: 282px;
+    height: 322px;
+  }
+
+  .modal__title {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 25px 22px 45px;
+  }
+  .edit-profile-form {
+    width: 234px;
+    margin: 0 22px 25px;
+  }
+  .modal__close-button {
+    height: 26px;
+    width: 26px;
+    top: -50.38px;
+    right: 0.38px;
+  }
+  .edit-profile-form__input {
+    margin-top: 30px;
+    padding: 0 0 13px;
+  }
+  .edit-profile-form__submit-button {
+    margin-top: 45px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
