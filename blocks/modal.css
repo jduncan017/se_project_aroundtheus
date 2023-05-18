@@ -1,15 +1,21 @@
 .modal {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s linear;
 }
 
 .modal_opened {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
 
 .modal__container {
@@ -32,7 +38,7 @@
   margin: 34px 36px 24.26px;
 }
 
-.edit-profile-form {
+.modal__form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,7 +61,7 @@
   padding: 0;
 }
 
-.edit-profile-form__input {
+.modal__form-input {
   display: block;
   width: 100%;
   padding: 0 0 13.26px;
@@ -68,7 +74,7 @@
   color: #000000;
 }
 
-.edit-profile-form__submit-button {
+.modal__submit-button {
   margin-top: 48px;
   width: 100%;
   height: 50px;
@@ -95,7 +101,7 @@
     line-height: 22px;
     margin: 25px 22px 45px;
   }
-  .edit-profile-form {
+  .modal__form {
     width: 234px;
     margin: 0 22px 25px;
   }
@@ -105,11 +111,11 @@
     top: -50.38px;
     right: 0.38px;
   }
-  .edit-profile-form__input {
+  .modal__form-input {
     margin-top: 30px;
     padding: 0 0 13px;
   }
-  .edit-profile-form__submit-button {
+  .modal__submit-button {
     margin-top: 45px;
     font-size: 14px;
     line-height: 17px;

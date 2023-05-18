@@ -1,0 +1,17 @@
+.image-modal__container {
+  height: 75vh;
+  max-width: 75vw;
+  position: relative;
+}
+
+.image-modal__image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.image-modal__title {
+  margin-top: 10px;
+  font-family: "Inter", Arial, sans-serif;
+  line-height: 1.2;
+}
