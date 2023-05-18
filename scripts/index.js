@@ -33,44 +33,58 @@ const imageModal = document.querySelector("#image-modal");
 const imageModalTitle = imageModal.querySelector(".image-modal__title");
 
 // function for rendering card data:
-const renderCard = (cardData) => cardsList.prepend(cardData);
+function renderCard(cardData) {
+  cardsList.prepend(cardData);
+}
+
+// function for adding all of the event listeners:
+function addListeners(card, newCard, cardImage) {
+  const cardLikeBtn = newCard.querySelector(".card__like-button");
+  const cardTrashBtn = newCard.querySelector(".card__trash-button");
+  // Add event listeners to toggle like button:
+  cardLikeBtn.addEventListener("click", () => {
+    cardLikeBtn.classList.toggle("card__like-button_active");
+  });
+  // Add event listeners to delete card with trash button:
+  cardTrashBtn.addEventListener("click", () => {
+    const parentCard = cardTrashBtn.parentElement;
+    parentCard.remove();
+  });
+  // Add event listeners for image modals:
+  cardImage.addEventListener("click", () => {
+    const modalImage = imageModal.querySelector(".image-modal__image");
+    modalImage.src = card.link;
+    modalImage.alt = card.name;
+    imageModalTitle.textContent = card.name;
+    openModal(imageModal);
+  });
+}
+
+// function for creating a card:
+function createCard(card) {
+  // clone the template
+  const newCard = cardTemplate.cloneNode(true);
+  // select the elements
+  const cardImage = newCard.querySelector(".card__image");
+  const cardTitle = newCard.querySelector(".card__title");
+  // add content to each element
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
+  cardTitle.textContent = card.name;
+  // add event listeners
+  addListeners(card, newCard, cardImage);
+  // output the updated card clone
+  return newCard;
+}
 
 // Function for adding images to page
-const addImages = (imageData) => {
+function addImages(imageData) {
   imageData.forEach((card) => {
-    // clone the template
-    const newCard = cardTemplate.cloneNode(true);
-    // select the elements
-    const cardImage = newCard.querySelector(".card__image");
-    const cardTitle = newCard.querySelector(".card__title");
-    const cardLikeBtn = newCard.querySelector(".card__like-button");
-    const cardTrashBtn = newCard.querySelector(".card__trash-button");
-    // add content to the elements
-    cardImage.src = card.link;
-    cardImage.alt = card.name;
-    cardTitle.textContent = card.name;
-    // Add event listeners to toggle like button:
-    cardLikeBtn.addEventListener("click", () => {
-      cardLikeBtn.classList.toggle("card__like-button_active");
-    });
-    // Add event listeners to delete card with trash button:
-    cardTrashBtn.addEventListener("click", () => {
-      const parentCard = cardTrashBtn.parentElement;
-      parentCard.remove();
-    });
-    // Add event listeners for image modals:
-    cardImage.addEventListener("click", () => {
-      const modalImage = imageModal.querySelector(".image-modal__image");
-      modalImage.src = card.link;
-      modalImage.alt = card.name;
-      imageModalTitle.textContent = card.name;
-      imageModal.classList.add("modal_opened");
-    });
-
+    const newCard = createCard(card);
     // append to HTML
     renderCard(newCard);
   });
-};
+}
 
 // add initial images to page:
 addImages(initialCards);
@@ -83,16 +97,16 @@ const addImageModal = document.querySelector("#add-image-modal");
 
 // GENERAL MODAL FUNCTIONS:
 // Open Functionality
-const openModal = (modal) => {
+function openModal(modal) {
   modal.classList.add("modal_opened");
-};
+}
 
 // Close button functionality:
 const closeModalButtons = document.querySelectorAll(".modal__close-button");
 
-const closeModal = (modal) => {
+function closeModal(modal) {
   modal.classList.remove("modal_opened");
-};
+}
 
 closeModalButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -110,7 +124,7 @@ const profileEditCloseBtn = editProfileModal.querySelector(
 );
 
 // Function prefills form values:
-fillProfileForm = () => {
+function fillProfileForm() {
   const profileName = document.querySelector(
     ".profile__name-title"
   ).textContent;
@@ -119,7 +133,7 @@ fillProfileForm = () => {
   ).textContent;
   editProfileModal.querySelector("#name").value = profileName;
   editProfileModal.querySelector("#description").value = profileDescription;
-};
+}
 
 // Functionality for the edit profile button
 editProfileBtn.addEventListener("click", function () {
@@ -153,7 +167,7 @@ addImageBtn.addEventListener("click", function () {
 });
 
 // function for submitting images
-const handleImageFormSubmit = (evt) => {
+function handleImageFormSubmit(evt) {
   evt.preventDefault();
   const imageTitleInput = evt.target.title;
   const imageLinkInput = evt.target.link;
@@ -166,7 +180,7 @@ const handleImageFormSubmit = (evt) => {
   addImages(imageData);
   imageFormElement.reset();
   closeModal(addImageModal);
-};
+}
 
 // event listener to submit image
 imageFormElement.addEventListener("submit", handleImageFormSubmit);
