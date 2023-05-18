@@ -30,8 +30,10 @@ const initialCards = [
 const cardTemplate = document.querySelector("#cards").content.firstElementChild;
 const cardsList = document.querySelector(".cards__list");
 const imageModal = document.querySelector("#image-modal");
-const modalContainer = imageModal.querySelector(".image-modal__container");
-const modalTitle = imageModal.querySelector(".image-modal__title");
+const imageModalTitle = imageModal.querySelector(".image-modal__title");
+
+// function for rendering card data:
+const renderCard = (cardData) => cardsList.prepend(cardData);
 
 // Function for adding images to page
 const addImages = (imageData) => {
@@ -43,7 +45,6 @@ const addImages = (imageData) => {
     const cardTitle = newCard.querySelector(".card__title");
     const cardLikeBtn = newCard.querySelector(".card__like-button");
     const cardTrashBtn = newCard.querySelector(".card__trash-button");
-
     // add content to the elements
     cardImage.src = card.link;
     cardImage.alt = card.name;
@@ -62,12 +63,12 @@ const addImages = (imageData) => {
       const modalImage = imageModal.querySelector(".image-modal__image");
       modalImage.src = card.link;
       modalImage.alt = card.name;
-      imageModal.querySelector(".image-modal__title").textContent = card.name;
+      imageModalTitle.textContent = card.name;
       imageModal.classList.add("modal_opened");
     });
 
     // append to HTML
-    cardsList.prepend(newCard);
+    renderCard(newCard);
   });
 };
 
@@ -77,8 +78,8 @@ addImages(initialCards);
 // MODAL FUNCATIONALITY
 // Modal variable definitions:
 // (specific defniitions listed under each modal)
-const editModal = document.querySelector("#edit-modal");
-const addModal = document.querySelector("#add-image-modal");
+const editProfileModal = document.querySelector("#edit-modal");
+const addImageModal = document.querySelector("#add-image-modal");
 
 // GENERAL MODAL FUNCTIONS:
 // Open Functionality
@@ -104,19 +105,26 @@ closeButtons.forEach((button) => {
 // Variables:
 const editProfileBtn = document.querySelector(".profile__name-button");
 const profileFormElement = document.querySelector("#edit-profile-form");
-const profileEditCloseBtn = editModal.querySelector(".modal__close-button");
+const profileEditCloseBtn = editProfileModal.querySelector(
+  ".modal__close-button"
+);
 
-// Functionality for the edit profile button
-editProfileBtn.addEventListener("click", function () {
+// Function prefills form values:
+fillProfileForm = () => {
   const profileName = document.querySelector(
     ".profile__name-title"
   ).textContent;
   const profileDescription = document.querySelector(
     ".profile__description"
   ).textContent;
-  openModal(editModal);
-  editModal.querySelector("#name").value = profileName;
-  editModal.querySelector("#description").value = profileDescription;
+  editProfileModal.querySelector("#name").value = profileName;
+  editProfileModal.querySelector("#description").value = profileDescription;
+};
+
+// Functionality for the edit profile button
+editProfileBtn.addEventListener("click", function () {
+  fillProfileForm();
+  openModal(editProfileModal);
 });
 
 // Form submission handler.
@@ -128,7 +136,7 @@ const handleProfileFormSubmit = (evt) => {
   const profileJob = document.querySelector(".profile__description");
   profileName.textContent = profileNameInput.value;
   profileJob.textContent = profileJobInput.value;
-  closeModal(editModal);
+  closeModal(editProfileModal);
 };
 
 // Sumbit Button Listener
@@ -141,7 +149,7 @@ const imageFormElement = document.querySelector("#add-image-form");
 
 // Functionality for the image add button
 addImageBtn.addEventListener("click", function () {
-  openModal(addModal);
+  openModal(addImageModal);
 });
 
 // function for submitting images
@@ -156,9 +164,8 @@ const handleImageFormSubmit = (evt) => {
     },
   ];
   addImages(imageData);
-  imageTitleInput.value = "";
-  imageLinkInput.value = "";
-  closeModal(addModal);
+  imageFormElement.reset();
+  closeModal(addImageModal);
 };
 
 // event listener to submit image
