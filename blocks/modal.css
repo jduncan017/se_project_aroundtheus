@@ -10,13 +10,13 @@
   align-items: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease 0s, visibility 0s 0.5s;
+  transition: opacity 0.3s linear, visibility 0s 0.5s;
 }
 
 .modal_opened {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.5s ease 0s, visibility 0s 0s;
+  transition: opacity 0.3s linear;
 }
 
 .modal__container {
