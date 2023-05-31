@@ -94,41 +94,53 @@ addImages(initialCards);
 // (specific defniitions listed under each modal)
 const editProfileModal = document.querySelector("#edit-modal");
 const addImageModal = document.querySelector("#add-image-modal");
+let currentModal = null;
 
 // GENERAL MODAL FUNCTIONS:
 // Open Functionality
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  addModalListeners(modal);
 }
 
 // Close modal functionality:
-const closeModalButtons = document.querySelectorAll(".modal__close-button");
-const modalOverlay = document.querySelectorAll(".modal");
-
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  removeModalListeners(modal);
 }
 
-closeModalButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const modal = button.closest(".modal");
-    closeModal(modal);
-  });
-});
+function closeModalOnClick(event) {
+  const modal = event.target.closest(".modal");
+  closeModal(modal);
+}
 
-modalOverlay.forEach((overlay) => {
-  overlay.addEventListener("mousedown", (event) => {
-    if (event.target === overlay) {
-      closeModal(overlay);
-    }
-  });
+function closeModalOnRemoteClick(event) {
+  if (event.target === event.currentTarget) {
+    closeModal(event.target);
+  }
+}
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeModal(overlay);
-    }
-  });
-});
+function closeModalOnEsc(event) {
+  if (event.key === "Escape" && currentModal) {
+    closeModal(currentModal);
+  }
+}
+
+function addModalListeners(modal) {
+  const closeButton = modal.querySelector(".modal__close-button");
+  currentModal = modal;
+  modal.addEventListener("mousedown", closeModalOnRemoteClick);
+  document.addEventListener("keydown", closeModalOnEsc);
+  closeButton.addEventListener("click", closeModalOnClick);
+}
+
+function removeModalListeners(modal) {
+  const closeButton = modal.querySelector(".modal__close-button");
+  currentModal = null;
+  modal.removeEventListener("mousedown", closeModalOnRemoteClick);
+  document.removeEventListener("keydown", closeModalOnEsc);
+  closeButton.removeEventListener("click", closeModalOnClick);
+}
 
 // PROFILE EDIT MODAL:
 // Variables:
@@ -197,7 +209,6 @@ function handleImageFormSubmit(evt) {
   imageFormElement.reset();
   closeModal(addImageModal);
   button.classList.add("modal__submit-button_disabled");
-  button.disabled = true;
 }
 
 // event listener to submit image

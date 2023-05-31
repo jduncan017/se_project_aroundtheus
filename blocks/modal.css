@@ -120,10 +120,15 @@
   border: 1px solid #000000;
   color: #000000;
   opacity: 0.2;
+  cursor: default;
 }
 
 .modal__submit-button:hover {
   opacity: 0.6;
+}
+
+.modal__submit-button_disabled:hover {
+  opacity: 0.2;
 }
 
 @media screen and (min-width: 320px) and (max-width: 595px) {
