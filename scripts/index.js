@@ -101,8 +101,9 @@ function openModal(modal) {
   modal.classList.add("modal_opened");
 }
 
-// Close button functionality:
+// Close modal functionality:
 const closeModalButtons = document.querySelectorAll(".modal__close-button");
+const modalOverlay = document.querySelectorAll(".modal");
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
@@ -112,6 +113,20 @@ closeModalButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const modal = button.closest(".modal");
     closeModal(modal);
+  });
+});
+
+modalOverlay.forEach((overlay) => {
+  overlay.addEventListener("mousedown", (event) => {
+    if (event.target === overlay) {
+      closeModal(overlay);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeModal(overlay);
+    }
   });
 });
 
@@ -160,6 +175,7 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 // Variables:
 const addImageBtn = document.querySelector(".profile__add-button");
 const imageFormElement = document.querySelector("#add-image-form");
+const button = imageFormElement.querySelector(".modal__submit-button");
 
 // Functionality for the image add button
 addImageBtn.addEventListener("click", function () {
@@ -180,6 +196,8 @@ function handleImageFormSubmit(evt) {
   addImages(imageData);
   imageFormElement.reset();
   closeModal(addImageModal);
+  button.classList.add("modal__submit-button_disabled");
+  button.disabled = true;
 }
 
 // event listener to submit image

@@ -10,6 +10,8 @@
     <title>Around The US</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="./pages/index.css" />
+    <script src="./scripts/index.js" defer></script>
+    <script src="validate.js" defer></script>
   </head>
 
   <body>
@@ -48,16 +50,26 @@
                 id="name"
                 name="name"
                 placeholder="Name"
+                minlength="2"
+                maxlength="40"
                 required
               />
+              <span class="modal__error" id="name-error"
+                >Error Message Here</span
+              >
               <input
                 class="modal__form-input"
                 type="text"
                 id="description"
                 name="description"
                 placeholder="Description"
+                minlength="2"
+                maxlength="200"
                 required
               />
+              <span class="modal__error" id="description-error"
+                >Error Message Here</span
+              >
               <button class="modal__submit-button" type="submit">Save</button>
             </form>
           </div>
@@ -74,17 +86,31 @@
                 id="title"
                 name="title"
                 placeholder="Title"
+                minlength="1"
+                maxlength="30"
                 required
               />
+              <span class="modal__error" id="title-error"
+                >Error Message Here</span
+              >
               <input
                 class="modal__form-input"
-                type="text"
                 id="link"
                 name="link"
                 placeholder="Image link"
+                type="url"
                 required
               />
-              <button class="modal__submit-button" type="submit">Save</button>
+              <span class="modal__error" id="link-error"
+                >Error Message Here</span
+              >
+              <button
+                class="modal__submit-button modal__submit-button_disabled"
+                type="submit"
+                disabled
+              >
+                Save
+              </button>
             </form>
           </div>
         </div>
@@ -120,7 +146,5 @@
         </div>
       </li>
     </template>
-
-    <script src="./scripts/index.js" defer></script>
   </body>
 </html>
