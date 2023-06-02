@@ -177,7 +177,7 @@ const handleProfileFormSubmit = (evt) => {
   closeModal(editProfileModal);
   const form = evt.target.closest(".modal__form");
   const inputElements = Array.from(form.querySelectorAll(".modal__form-input"));
-  toggleButtonState(form, inputElements);
+  toggleButtonState(form, inputElements, config);
 };
 
 // Sumbit Button Listener
