@@ -101,21 +101,6 @@ const addImageModal = document.querySelector("#add-image-modal");
 function openModal(modal, config) {
   modal.classList.add("modal_opened");
   addModalListeners(modal);
-  const inputElements = createInputArray(modal, config);
-  toggleButtonState(modal, inputElements, config);
-  // ^ createInputArray from validate.js
-}
-
-function toggleButtonState(form, inputElements, config) {
-  const button = form.querySelector(config.submitButtonSelector);
-  if (checkFormValidity(inputElements)) {
-    button.classList.remove(config.inactiveButtonClass);
-    button.disabled = false;
-  } else {
-    button.classList.add(config.inactiveButtonClass);
-    button.disabled = true;
-    // ^ checkFormValidity from validate.js
-  }
 }
 
 // Close modal functionality:
@@ -207,6 +192,10 @@ const button = imageFormElement.querySelector(".modal__submit-button");
 // Functionality for the image add button
 addImageBtn.addEventListener("click", function () {
   openModal(addImageModal, config);
+  const inputElements = createInputArray(addImageModal, config);
+  const btnForm = button.closest(".modal__form");
+  toggleButtonState(btnForm, inputElements, config);
+  // ^ createInputArray from validate.js
 });
 
 // function for submitting images

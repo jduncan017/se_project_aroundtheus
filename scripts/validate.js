@@ -24,6 +24,17 @@ function toggleInputErrorDisplay(form, input, config) {
   }
 }
 
+function toggleButtonState(form, inputElements, config) {
+  const button = form.querySelector(config.submitButtonSelector);
+  if (checkFormValidity(inputElements)) {
+    button.classList.remove(config.inactiveButtonClass);
+    button.disabled = false;
+  } else {
+    button.classList.add(config.inactiveButtonClass);
+    button.disabled = true;
+  }
+}
+
 function setEventListeners(form, config) {
   const inputElements = createInputArray(form, config);
   inputElements.forEach((input) => {
