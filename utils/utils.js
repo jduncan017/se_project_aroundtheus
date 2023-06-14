@@ -70,8 +70,7 @@ function handleProfileFormSubmit(evt) {
 
   // disable the submit button
   const submitBtn = profileFormElement.querySelector("#submit-button");
-  const formValidatorInstance = new FormValidator(settings, imageFormElement);
-  formValidatorInstance.disableButton(submitBtn);
+  disableButton(submitBtn);
 }
 
 // Sumbit Button Listener
@@ -101,8 +100,7 @@ function removeModalListeners(modal) {
 // Functionality for the image add button
 addImageBtn.addEventListener("click", () => {
   openModal(addImageModal, settings);
-  const formValidatorInstance = new FormValidator(settings, imageFormElement);
-  formValidatorInstance.disableButton(imageSubmitBtn);
+  disableButton(imageSubmitBtn);
 });
 
 // function for submitting images
@@ -129,4 +127,14 @@ export function createInputArray(form) {
     form.querySelectorAll(settings.inputSelector)
   );
   return inputElements;
+}
+
+export function enableButton(button) {
+  button.classList.remove(settings.inactiveButtonClass);
+  button.disabled = false;
+}
+
+export function disableButton(button) {
+  button.classList.add(settings.inactiveButtonClass);
+  button.disabled = true;
 }

@@ -1,4 +1,8 @@
-import { createInputArray } from "../utils/utils.js";
+import {
+  createInputArray,
+  enableButton,
+  disableButton,
+} from "../utils/utils.js";
 
 export class FormValidator {
   constructor(settings, formElement) {
@@ -26,22 +30,12 @@ export class FormValidator {
     }
   }
 
-  _enableButton(button) {
-    button.classList.remove(this.settings.inactiveButtonClass);
-    button.disabled = false;
-  }
-
-  disableButton(button) {
-    button.classList.add(this.settings.inactiveButtonClass);
-    button.disabled = true;
-  }
-
   _toggleButtonState(form, inputElements) {
     const button = form.querySelector(this.settings.submitButtonSelector);
     if (this._checkFormValidity(inputElements)) {
-      this._enableButton(button);
+      enableButton(button);
     } else {
-      this.disableButton(button);
+      disableButton(button);
     }
   }
 
