@@ -28,7 +28,6 @@ export class Card {
     });
     // Add event listeners for image modals:
     cardImage.addEventListener("click", () => {
-      const modalImage = imageModal.querySelector(".image-modal__image");
       modalImage.src = this.imageLink;
       modalImage.alt = this.text;
       imageModalTitle.textContent = this.text;
