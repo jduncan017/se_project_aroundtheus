@@ -2,11 +2,6 @@
 import { Card } from "../scripts/Card.js";
 import { FormValidator } from "../scripts/FormValidator.js";
 
-// VARIABLES
-export const cardTemplate =
-  document.querySelector("#cards").content.firstElementChild;
-const formElements = document.querySelectorAll(".modal__form");
-
 // Initial arrays:
 const initialCards = [
   {
@@ -44,14 +39,30 @@ export const settings = {
   errorClass: "modal__error_visible",
 };
 
+// VARIABLES
+export const cardTemplate =
+  document.querySelector("#cards").content.firstElementChild;
+const formElements = Array.from(
+  document.querySelectorAll(settings.formSelector)
+);
+const cardsList = document.querySelector(".cards__list");
+export const formValidators = {};
+
+export function renderCard(cardData) {
+  const card = new Card(cardData.name, cardData.link, cardTemplate);
+  const newCard = card.createCard(cardData);
+  cardsList.prepend(newCard);
+}
+
 // initialize the page with cards
 initialCards.forEach((cardData) => {
-  let card = new Card(cardData.name, cardData.link, cardTemplate);
-  card.renderCard(cardData);
+  renderCard(cardData);
 });
 
 // add validation to all forms
 formElements.forEach((formElement) => {
-  const formValidator = new FormValidator(settings, formElement);
-  formValidator.enableValidation();
+  const validator = new FormValidator(settings, formElement);
+  const formName = formElement.getAttribute("name");
+  formValidators[formName] = validator;
+  validator.enableValidation();
 });

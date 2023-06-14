@@ -1,15 +1,14 @@
 // imports
-import { settings } from "../pages/index.js";
-import { Card } from "../scripts/Card.js";
-import { FormValidator } from "../scripts/FormValidator.js";
-import { cardTemplate } from "../pages/index.js";
+import { renderCard, formValidators } from "../pages/index.js";
 
 // MODAL FUNCATIONALITY
 // GENERAL MODAL FUNCTIONS:
 // Open Functionality
-export function openModal(modal) {
+export function openModal(modal, formClassName) {
   modal.classList.add("modal_opened");
   addModalListeners(modal);
+  // reset form inputs
+  formValidators[formClassName].resetValidation();
 }
 
 // Close modal functionality:
@@ -30,8 +29,8 @@ function closeModalOnRemoteClick(event) {
 }
 
 function closeModalOnEsc(event) {
-  const currentModal = document.querySelector(".modal_opened");
-  if (event.key === "Escape" && currentModal) {
+  if (event.key === "Escape") {
+    const currentModal = document.querySelector(".modal_opened");
     closeModal(currentModal);
   }
 }
@@ -40,37 +39,30 @@ function closeModalOnEsc(event) {
 // Variables:
 const editProfileModal = document.querySelector("#edit-modal");
 const editProfileBtn = document.querySelector(".profile__name-button");
-const profileFormElement = document.querySelector("#edit-profile-form");
+const profileFormElement = document.forms["edit-profile-form"];
 const profileName = document.querySelector(".profile__name-title");
+const profileNameInput = editProfileModal.querySelector("#name");
 const profileDescription = document.querySelector(".profile__description");
+const profileDescriptionInput = editProfileModal.querySelector("#description");
+
+// Function prefills form values:
+function fillProfileForm() {
+  profileNameInput.value = profileName.textContent;
+  profileDescriptionInput.value = profileDescription.textContent;
+}
 
 // Functionality for the edit profile button
 editProfileBtn.addEventListener("click", function () {
   fillProfileForm();
-  openModal(editProfileModal, settings);
+  openModal(editProfileModal, "edit-profile-form");
 });
-
-// Function prefills form values:
-function fillProfileForm() {
-  editProfileModal.querySelector("#name").value = profileName.textContent;
-  editProfileModal.querySelector("#description").value =
-    profileDescription.textContent;
-}
 
 // Form submission handler.
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  const profileNameInput = profileFormElement.querySelector("#name");
-  const profileJobInput = profileFormElement.querySelector("#description");
-  const profileName = document.querySelector(".profile__name-title");
-  const profileJob = document.querySelector(".profile__description");
   profileName.textContent = profileNameInput.value;
-  profileJob.textContent = profileJobInput.value;
+  profileDescription.textContent = profileDescriptionInput.value;
   closeModal(editProfileModal);
-
-  // disable the submit button
-  const submitBtn = profileFormElement.querySelector("#submit-button");
-  disableButton(submitBtn);
 }
 
 // Sumbit Button Listener
@@ -80,8 +72,7 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 // Variables:
 const addImageModal = document.querySelector("#add-image-modal");
 const addImageBtn = document.querySelector(".profile__add-button");
-const imageFormElement = document.querySelector("#add-image-form");
-const imageSubmitBtn = imageFormElement.querySelector(".modal__submit-button");
+const imageFormElement = document.forms["add-image-form"];
 
 function addModalListeners(modal) {
   const closeButton = modal.querySelector(".modal__close-button");
@@ -99,8 +90,7 @@ function removeModalListeners(modal) {
 
 // Functionality for the image add button
 addImageBtn.addEventListener("click", () => {
-  openModal(addImageModal, settings);
-  disableButton(imageSubmitBtn);
+  openModal(addImageModal, "add-image-form");
 });
 
 // function for submitting images
@@ -112,29 +102,10 @@ function handleImageFormSubmit(evt) {
     name: imageTitleInput.value,
     link: imageLinkInput.value,
   };
-  const card = new Card(imageData.name, imageData.link, cardTemplate);
-  card.renderCard(imageData);
+  renderCard(imageData);
   imageFormElement.reset();
   closeModal(addImageModal);
 }
 
 // event listener to submit image
 imageFormElement.addEventListener("submit", handleImageFormSubmit);
-
-// GENERAL FUNCTIONS
-export function createInputArray(form) {
-  const inputElements = Array.from(
-    form.querySelectorAll(settings.inputSelector)
-  );
-  return inputElements;
-}
-
-export function enableButton(button) {
-  button.classList.remove(settings.inactiveButtonClass);
-  button.disabled = false;
-}
-
-export function disableButton(button) {
-  button.classList.add(settings.inactiveButtonClass);
-  button.disabled = true;
-}
