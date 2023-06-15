@@ -9,6 +9,7 @@ export class FormValidator {
   }
 
   _setEventListeners() {
+    this._toggleButtonState();
     this.inputElements.forEach((input) => {
       input.addEventListener("input", () => {
         this._toggleInputErrorDisplay(this.formElement, input);
