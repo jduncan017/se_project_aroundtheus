@@ -9,9 +9,9 @@ export class Card {
     this.handleCardClick = handleCardClick;
   }
 
-  _addListeners(newCard, cardImage) {
-    const cardLikeBtn = newCard.querySelector(".card__like-button");
-    const cardTrashBtn = newCard.querySelector(".card__trash-button");
+  _addListeners() {
+    const cardLikeBtn = this.newCard.querySelector(".card__like-button");
+    const cardTrashBtn = this.newCard.querySelector(".card__trash-button");
     // Add event listeners to toggle like button:
     cardLikeBtn.addEventListener("click", () => {
       cardLikeBtn.classList.toggle("card__like-button_active");
@@ -22,7 +22,7 @@ export class Card {
       parentCard.remove();
     });
     // Add event listeners for image popups:
-    cardImage.addEventListener("click", () => {
+    this.cardImage.addEventListener("click", () => {
       this.handleCardClick(this.imageLink, this.text);
     });
   }
@@ -33,7 +33,7 @@ export class Card {
     this.cardImage.alt = this.text;
     this.cardTitle.textContent = this.text;
     // add event listeners
-    this._addListeners(this.newCard, this.cardImage);
+    this._addListeners();
     // output the updated card clone
     return this.newCard;
   }
