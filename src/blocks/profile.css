@@ -45,7 +45,7 @@
   align-self: center;
 }
 
-.profile__description {
+.profile__job {
   margin: 0;
   font-family: "Inter", Arial, sans-serif;
   font-size: 18px;
@@ -107,7 +107,7 @@
     width: 18px;
   }
 
-  .profile__description {
+  .profile__job {
     font-size: 14px;
     align-self: center;
   }
@@ -128,7 +128,7 @@
     max-width: 90vw;
   }
 
-  .profile__description {
+  .profile__job {
     max-width: 90vw;
   }
 }

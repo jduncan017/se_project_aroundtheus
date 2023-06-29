@@ -1,17 +1,12 @@
 // imports
-import { openModal } from "../utils/utils.js";
-
-const imageModal = document.querySelector("#image-modal");
-const imageModalTitle = imageModal.querySelector(".image-modal__title");
-const modalImage = imageModal.querySelector(".image-modal__image");
-
 export class Card {
-  constructor(text, imageLink, templateElement) {
+  constructor(text, imageLink, templateElement, handleCardClick) {
     this.text = text;
     this.imageLink = imageLink;
     this.newCard = templateElement.cloneNode(true);
     this.cardImage = this.newCard.querySelector(".card__image");
     this.cardTitle = this.newCard.querySelector(".card__title");
+    this.handleCardClick = handleCardClick;
   }
 
   _addListeners(newCard, cardImage) {
@@ -26,12 +21,9 @@ export class Card {
       const parentCard = cardTrashBtn.parentElement;
       parentCard.remove();
     });
-    // Add event listeners for image modals:
+    // Add event listeners for image popups:
     cardImage.addEventListener("click", () => {
-      modalImage.src = this.imageLink;
-      modalImage.alt = this.text;
-      imageModalTitle.textContent = this.text;
-      openModal(imageModal);
+      this.handleCardClick(this.imageLink, this.text);
     });
   }
 

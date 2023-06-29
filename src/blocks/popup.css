@@ -1,4 +1,4 @@
-.modal {
+.popup {
   display: flex;
   position: fixed;
   top: 0;
@@ -13,13 +13,13 @@
   transition: opacity 0.3s linear, visibility 0s 0.5s;
 }
 
-.modal_opened {
+.popup_opened {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s linear;
 }
 
-.modal__container {
+.popup__container {
   background-color: #fff;
   position: absolute;
   top: 195px;
@@ -30,7 +30,7 @@
   border-radius: 10px;
 }
 
-.modal__title {
+.popup__title {
   font-family: "Inter", Arial, sans-serif;
   font-weight: 900;
   font-size: 24px;
@@ -40,7 +40,7 @@
   height: 23px;
 }
 
-.modal__form {
+.popup__form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +48,7 @@
   margin: 0 36px;
 }
 
-.modal__close-button {
+.popup__close-button {
   position: absolute;
   top: -40px;
   right: -40px;
@@ -63,11 +63,11 @@
   padding: 0;
 }
 
-.modal__close-button:hover {
+.popup__close-button:hover {
   opacity: 0.6;
 }
 
-.modal__form-input {
+.popup__form-input {
   display: block;
   width: 100%;
   padding: 0 0 13.04px;
@@ -80,11 +80,11 @@
   height: 14px;
 }
 
-.modal__input-invalid {
+.popup__input-invalid {
   border-color: #ff0000;
 }
 
-.modal__error {
+.popup__error {
   font-family: "Inter", Arial, sans-serif;
   font-size: 12px;
   line-height: 12px;
@@ -95,11 +95,11 @@
   visibility: hidden;
 }
 
-.modal__error_visible {
+.popup__error_visible {
   visibility: visible;
 }
 
-.modal__submit-button {
+.popup__submit-button {
   margin-top: 18px;
   width: 100%;
   height: 50px;
@@ -115,7 +115,7 @@
   text-align: center;
 }
 
-.modal__submit-button_disabled {
+.popup__submit-button_disabled {
   background-color: white;
   border: 1px solid #000000;
   color: #000000;
@@ -123,44 +123,44 @@
   cursor: default;
 }
 
-.modal__submit-button:hover {
+.popup__submit-button:hover {
   opacity: 0.6;
 }
 
-.modal__submit-button_disabled:hover {
+.popup__submit-button_disabled:hover {
   opacity: 0.2;
 }
 
 @media screen and (min-width: 320px) and (max-width: 595px) {
-  .modal__container {
+  .popup__container {
     width: 282px;
     height: 322px;
   }
 
-  .modal__title {
+  .popup__title {
     font-size: 18px;
     line-height: 22px;
     margin: 25px 22px 75px;
   }
 
-  .modal__form {
+  .popup__form {
     width: 234px;
     margin: 0 22px 25px;
   }
 
-  .modal__close-button {
+  .popup__close-button {
     height: 26px;
     width: 26px;
     top: -50.38px;
     right: 0.38px;
   }
 
-  .modal__form-input {
+  .popup__form-input {
     margin-top: 0;
     padding: 0 0 13px;
   }
 
-  .modal__submit-button {
+  .popup__submit-button {
     margin-top: 15px;
     font-size: 14px;
     line-height: 17px;

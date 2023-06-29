@@ -9,19 +9,22 @@
     <meta name="description" content="A page for sharing photos." />
     <title>Around The US</title>
     <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="stylesheet" href="./pages/index.css" />
   </head>
 
   <body>
     <div class="page">
       <header class="header page__section">
-        <img src="images/logo.svg" alt="logo" class="header__logo" />
+        <img
+          src="<%=require('./images/logo.svg')%>"
+          alt="logo"
+          class="header__logo"
+        />
       </header>
       <main class="content">
         <section class="profile page__section">
           <img
             class="profile__picture"
-            src="images/jacques-cousteau.jpg"
+            src="<%=require('./images/jacques-cousteau.jpg')%>"
             alt="avatar"
           />
           <div class="profile__info">
@@ -29,25 +32,25 @@
               <h1 class="profile__name-title">Jacques Cousteau</h1>
               <button class="profile__name-button" type="button"></button>
             </div>
-            <h2 class="profile__description">Explorer</h2>
+            <h2 class="profile__job">Explorer</h2>
           </div>
           <button class="profile__add-button" type="button"></button>
         </section>
         <section class="cards page__section">
           <ul class="cards__list"></ul>
         </section>
-        <!-- PROFILE EDIT MODAL -->
-        <div class="modal" id="edit-modal">
-          <div class="modal__container">
-            <h2 class="modal__title">Edit profile</h2>
-            <button class="modal__close-button" type="button"></button>
+        <!-- PROFILE EDIT popup -->
+        <div class="popup" id="edit-popup">
+          <div class="popup__container">
+            <h2 class="popup__title">Edit profile</h2>
+            <button class="popup__close-button" type="button"></button>
             <form
-              class="modal__form"
+              class="popup__form"
               id="edit-profile-form"
               name="edit-profile-form"
             >
               <input
-                class="modal__form-input"
+                class="popup__form-input"
                 type="text"
                 id="name"
                 name="name"
@@ -56,24 +59,24 @@
                 maxlength="40"
                 required
               />
-              <span class="modal__error" id="name-error"
+              <span class="popup__error" id="name-error"
                 >Error Message Here</span
               >
               <input
-                class="modal__form-input"
+                class="popup__form-input"
                 type="text"
-                id="description"
-                name="description"
-                placeholder="Description"
+                id="job"
+                name="job"
+                placeholder="Job"
                 minlength="2"
                 maxlength="200"
                 required
               />
-              <span class="modal__error" id="description-error"
+              <span class="popup__error" id="job-error"
                 >Error Message Here</span
               >
               <button
-                class="modal__submit-button"
+                class="popup__submit-button"
                 type="submit"
                 id="submit-button"
               >
@@ -82,14 +85,14 @@
             </form>
           </div>
         </div>
-        <!-- IMAGE ADD MODAL -->
-        <div class="modal" id="add-image-modal">
-          <div class="modal__container">
-            <h1 class="modal__title">New Place</h1>
-            <button class="modal__close-button" type="button"></button>
-            <form class="modal__form" id="add-image-form" name="add-image-form">
+        <!-- IMAGE ADD popup -->
+        <div class="popup" id="add-image-popup">
+          <div class="popup__container">
+            <h1 class="popup__title">New Place</h1>
+            <button class="popup__close-button" type="button"></button>
+            <form class="popup__form" id="add-image-form" name="add-image-form">
               <input
-                class="modal__form-input"
+                class="popup__form-input"
                 type="text"
                 id="title"
                 name="title"
@@ -98,32 +101,32 @@
                 maxlength="30"
                 required
               />
-              <span class="modal__error" id="title-error"
+              <span class="popup__error" id="title-error"
                 >Error Message Here</span
               >
               <input
-                class="modal__form-input"
+                class="popup__form-input"
                 id="link"
                 name="link"
                 placeholder="Image link"
                 type="url"
                 required
               />
-              <span class="modal__error" id="link-error"
+              <span class="popup__error" id="link-error"
                 >Error Message Here</span
               >
-              <button class="modal__submit-button" type="submit" disabled>
+              <button class="popup__submit-button" type="submit" disabled>
                 Save
               </button>
             </form>
           </div>
         </div>
-        <!-- IMAGE DISPLAY MODAL -->
-        <div class="modal image-modal" id="image-modal">
-          <div class="image-modal__container">
-            <img class="image-modal__image" alt="" src="#" />
-            <div class="image-modal__title"></div>
-            <button class="modal__close-button" type="button"></button>
+        <!-- IMAGE DISPLAY popup -->
+        <div class="popup image-popup" id="image-popup">
+          <div class="image-popup__container">
+            <img class="image-popup__image" alt="" src="#" />
+            <div class="image-popup__title"></div>
+            <button class="popup__close-button" type="button"></button>
           </div>
         </div>
       </main>
@@ -150,7 +153,5 @@
         </div>
       </li>
     </template>
-    <script src="./pages/index.js" type="module" defer></script>
-    <script src="./utils/utils.js" type="module" defer></script>
   </body>
 </html>
