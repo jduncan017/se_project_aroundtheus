@@ -4,7 +4,9 @@ export default class PopupConfirm extends Popup {
   constructor(popupSelector, handleConfirm) {
     super(popupSelector);
     this._handleConfirm = handleConfirm;
-    this._confirmButton = document.querySelector(".confirm-delete-popup");
+    this._confirmButton = this.popup.querySelector(
+      ".confirm-popup__submit-button"
+    );
   }
 
   setEventListeners() {
