@@ -93,10 +93,6 @@
   border: none;
 }
 
-.card__trash-button_invisible {
-  visibility: hidden;
-}
-
 .card__trash-button:hover {
   opacity: 0.6;
   cursor: pointer;

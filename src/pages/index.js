@@ -14,23 +14,35 @@ import "./index.css";
 import "../favicon.ico";
 import placeholderImage from "../images/No-Image-Placeholder.png";
 
-const profileFormSubmitBtn = document.querySelector("#profile-submit-button");
-const imageFormSubmitBtn = document.querySelector("#image-submit-button");
-const confirmDeleteBtn = document.querySelector("#confirm-delete-button");
-const pictureSubmitBtn = document.querySelector("#picture-submit-button");
+/* --------------------------------------- */
+/*        FILE VARIABLE DEFINITIONS        */
+/* --------------------------------------- */
+const formValidators = {};
+
+let cardsSection = null;
+let userId = null;
+
+function renderLoading(buttonSelector, message) {
+  buttonSelector.textContent = message;
+}
 
 /* --------------------------------------- */
-/*          VARIABLES DEFINITIONS          */
+/*           INITIAL RENDERING             */
 /* --------------------------------------- */
+// variable definitions
 export const cardTemplate =
   document.querySelector("#cards").content.firstElementChild;
 const formElements = Array.from(
   document.querySelectorAll(settings.formSelector)
 );
-const formValidators = {};
 
-let cardsSection = null;
-let userId = null;
+// add validation to all forms
+formElements.forEach((formElement) => {
+  const validator = new FormValidator(settings, formElement);
+  const formName = formElement.getAttribute("name");
+  formValidators[formName] = validator;
+  validator.enableValidation();
+});
 
 // FUNCTIONS
 function renderCard(cardData) {
@@ -40,9 +52,9 @@ function renderCard(cardData) {
     cardTemplate,
     placeholderImage,
     handleCardClick,
-    confirmDeletePopup,
+    handleTrashClick,
     duplicateCardsArray,
-    api
+    handleLikeClick
   );
   return card.createCard();
 }
@@ -50,7 +62,16 @@ function renderCard(cardData) {
 /* --------------------------------------- */
 /*           FETCH SITE DATA               */
 /* --------------------------------------- */
-const api = new userApi({
+// Variables:
+const userInfoSelector = {
+  userNameSelector: ".profile__name-title",
+  userAboutSelector: ".profile__about",
+  userPictureSelector: ".profile__picture",
+};
+
+// Create Classes:
+const userInfo = new UserInfo(userInfoSelector);
+const Api = new userApi({
   url: "https://around.nomoreparties.co/v1/cohort-3-en",
   headers: {
     authorization: "c1d3050f-9f71-48b4-9235-936056aa4e95",
@@ -58,14 +79,7 @@ const api = new userApi({
   },
 });
 
-const userInfoSelector = {
-  userNameSelector: ".profile__name-title",
-  userAboutSelector: ".profile__about",
-  userPictureSelector: ".profile__picture",
-};
-const userInfo = new UserInfo(userInfoSelector);
-
-Promise.all([api.getUserInfo(), api.getInitialCards()])
+Promise.all([Api.getUserInfo(), Api.getInitialCards()])
   .then(([userData, initialCardsArray]) => {
     userInfo.setUserPicture({ avatar: userData.avatar });
     userInfo.setUserInfo({
@@ -81,56 +95,54 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     cardsSection.renderItems();
   })
   .catch((error) => {
-    console.error(error);
+    console.error(`Error: ${error}`);
   });
 
 /* --------------------------------------- */
 /*         CONFIRM DELETE POPUP            */
 /* --------------------------------------- */
 // Variables:
+const confirmDeleteBtn = document.querySelector("#confirm-delete-button");
 function confirmDelete(cardId) {
-  confirmDeleteBtn.textContent = "Deleting...";
+  renderLoading(confirmDeleteBtn, "Deleting...");
   removeFromImageLinksArray(cardId);
-  api
-    .deleteCard(cardId)
+  Api.deleteCard(cardId)
     .then(() => {
       const cardElement = document.getElementById(cardId);
       cardElement.remove();
-      confirmDeleteBtn.textContent = "Yes";
     })
     .catch((error) => {
-      console.log("Error:", error);
+      console.error(`Error: ${error}`);
+    })
+    .finally(() => {
+      confirmDeletePopup.close();
+      renderLoading(confirmDeleteBtn, "Yes");
     });
 }
 
-// Popup Creation:
+// Create Popup:
 const confirmDeletePopup = new PopupConfirm(
   "#confirm-delete-popup",
   confirmDelete
 );
 confirmDeletePopup.setEventListeners();
 
-/* --------------------------------------- */
-/*           INITIAL RENDERING             */
-/* --------------------------------------- */
-// add validation to all forms
-formElements.forEach((formElement) => {
-  const validator = new FormValidator(settings, formElement);
-  const formName = formElement.getAttribute("name");
-  formValidators[formName] = validator;
-  validator.enableValidation();
-});
+// function for deleting cards from the DOM:
+function handleTrashClick(cardId) {
+  confirmDeletePopup.open(cardId);
+}
 
 /* --------------------------------------- */
 /*        PROFILE PICTURE EDIT FORM      */
 /* --------------------------------------- */
 // Variables:
+const pictureSubmitBtn = document.querySelector("#picture-submit-button");
 const editProfilePictureBtn = document.querySelector(
   ".profile__picture-overlay"
 );
 const profilePicture = document.querySelector(".profile__picture");
 
-// Popup Creation:
+// Create Popup:
 const editProfilePictureForm = new PopupWithForm(
   "#edit-profile-picture-popup",
   handlePictureFormSubmit
@@ -143,18 +155,19 @@ editProfilePictureBtn.addEventListener("click", function () {
   editProfilePictureForm.open();
 });
 
-// Form submission handler.
+// Handle Form Submission:
 function handlePictureFormSubmit(inputs) {
-  pictureSubmitBtn.textContent = "Saving...";
-  api
-    .updateUserPicture({ avatar: inputs.link })
+  renderLoading(pictureSubmitBtn, "Saving...");
+  Api.updateUserPicture({ avatar: inputs.link })
     .then((res) => {
       profilePicture.src = res.avatar;
-      editProfilePictureForm.close();
-      pictureSubmitBtn.textContent = "Save";
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      console.error(`Error: ${error}`);
+    })
+    .finally(() => {
+      editProfilePictureForm.close();
+      renderLoading(pictureSubmitBtn, "Save");
     });
 }
 
@@ -162,6 +175,7 @@ function handlePictureFormSubmit(inputs) {
 /*           PROFILE EDIT FORM             */
 /* --------------------------------------- */
 // Variables:
+const profileFormSubmitBtn = document.querySelector("#profile-submit-button");
 const editProfileBtn = document.querySelector(".profile__name-button");
 
 const editProfileForm = new PopupWithForm(
@@ -170,7 +184,7 @@ const editProfileForm = new PopupWithForm(
 );
 editProfileForm.setEventListeners();
 
-// Functionality for the edit profile button
+// Edit Button Functionality:
 editProfileBtn.addEventListener("click", function () {
   formValidators["edit-profile-form"].resetValidation();
   const data = userInfo.getUserInfo();
@@ -178,21 +192,22 @@ editProfileBtn.addEventListener("click", function () {
   editProfileForm.open();
 });
 
-// Form submission handler.
+// Handle Form Submission:
 function handleProfileFormSubmit(inputs) {
-  profileFormSubmitBtn.textContent = "Saving...";
-  api
-    .updateUserInfo({ name: inputs.name, about: inputs.about })
+  renderLoading(profileFormSubmitBtn, "Saving...");
+  Api.updateUserInfo({ name: inputs.name, about: inputs.about })
     .then((newUserData) => {
       userInfo.setUserInfo({
         name: newUserData.name,
         about: newUserData.about,
       });
-      editProfileForm.close();
-      ProfileFormSubmitBtn.textContent = "Save";
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      console.error(`Error: ${error}`);
+    })
+    .finally(() => {
+      editProfileForm.close();
+      renderLoading(profileFormSubmitBtn, "Save");
     });
 }
 
@@ -201,32 +216,39 @@ function handleProfileFormSubmit(inputs) {
 /* --------------------------------------- */
 // Variables:
 const addImageBtn = document.querySelector(".profile__add-button");
+const imageFormSubmitBtn = document.querySelector("#image-submit-button");
 
-// Popup Creation:
+// Create Popup:
 const addImagePopup = new PopupWithForm(
   "#add-image-popup",
   handleImageFormSubmit
 );
 addImagePopup.setEventListeners();
 
-// Functionality for the image add button
+// Add Button Functionality:
 addImageBtn.addEventListener("click", () => {
   formValidators["add-image-form"].resetValidation();
   addImagePopup.open();
 });
 
-// function for submitting images
+// Handle Form Submission:
 function handleImageFormSubmit(inputs) {
-  imageFormSubmitBtn.textContent = "Saving...";
-  api.addCard({ name: inputs.name, link: inputs.link }).then((res) => {
-    const newCard = renderCard(res);
-    cardsSection.prependItem(newCard);
-    addImagePopup.close();
-    imageFormSubmitBtn.textContent = "Save";
-  });
+  renderLoading(imageFormSubmitBtn, "Saving...");
+  Api.addCard({ name: inputs.name, link: inputs.link })
+    .then((res) => {
+      const newCard = renderCard(res);
+      cardsSection.prependItem(newCard);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => {
+      addImagePopup.close();
+      renderLoading(imageFormSubmitBtn, "Save");
+    });
 }
 
-// function for opening image popups
+// Create Popup:
 const imagePopup = new PopupWithImage("#image-popup");
 imagePopup.setEventListeners();
 
@@ -262,9 +284,23 @@ function removeFromImageLinksArray(cardId) {
   const cardImage = card.querySelector(".card__image");
   // remove from duplicateCardsArray
   duplicateCardsArray = duplicateCardsArray.filter((id) => id !== cardId);
-  console.log(card);
-  console.log(cardImage.src);
   Card.cardImageLinks = Card.cardImageLinks.filter((imageLink) => {
     return imageLink !== cardImage.src;
   });
+}
+
+/* --------------------------------------- */
+/*        Like Button Functionality        */
+/* --------------------------------------- */
+function handleLikeClick(card) {
+  const method = card.isLiked() ? "unlikeCard" : "likeCard";
+
+  Api[method](card.getId())
+    .then((resCard) => {
+      card.setLikes(resCard.likes);
+    })
+    .catch((error) => {
+      console.error(`Error: ${error}`);
+      card.setLikes();
+    });
 }

@@ -4,67 +4,65 @@ export default class userApi {
     this._headers = options.headers;
   }
 
+  /* --------------------------------------- */
+  /*             PUBLIC METHODS              */
+  /* --------------------------------------- */
+
+  getUserInfo() {
+    return this._fetch("/users/me");
+  }
+
+  updateUserInfo(userInfo) {
+    return this._fetch("/users/me", "PATCH", userInfo);
+  }
+
+  getInitialCards() {
+    return this._fetch("/cards");
+  }
+
+  addCard(cardInfo) {
+    return this._fetch("/cards", "POST", cardInfo);
+  }
+
+  deleteCard(cardId) {
+    return this._fetch(`/cards/${cardId}`, "DELETE");
+  }
+
+  likeCard(cardId) {
+    return this._fetch(`/cards/likes/${cardId}`, "PUT");
+  }
+
+  unlikeCard(cardId) {
+    return this._fetch(`/cards/likes/${cardId}`, "DELETE");
+  }
+
+  updateUserPicture(avatar) {
+    return this._fetch("/users/me/avatar", "PATCH", avatar);
+  }
+
+  /* --------------------------------------- */
+  /*             PRIVATE METHODS             */
+  /* --------------------------------------- */
+
+  _fetch(endpoint, method = "GET", body = null) {
+    const fetchOptions = {
+      method,
+      headers: this._headers,
+    };
+
+    if (body) {
+      fetchOptions.body = JSON.stringify(body);
+    }
+
+    return fetch(`${this._url}${endpoint}`, fetchOptions).then(
+      this._checkResponse
+    );
+  }
+
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
     }
     return Promise.reject(`Oops there's an error!: ${res.status}`);
-  }
-
-  getUserInfo() {
-    return fetch(`${this._url}/users/me`, {
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
-
-  updateUserInfo(userInfo) {
-    return fetch(`${this._url}/users/me`, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify(userInfo),
-    }).then(this._checkResponse);
-  }
-
-  getInitialCards() {
-    return fetch(`${this._url}/cards`, {
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
-
-  addCard(cardInfo) {
-    return fetch(`${this._url}/cards`, {
-      method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(cardInfo),
-    }).then(this._checkResponse);
-  }
-
-  deleteCard(cardId) {
-    return fetch(`${this._url}/cards/${cardId}`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
-
-  likeCard(cardId) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: this._headers,
-    }).then((res) => res.json());
-  }
-
-  unlikeCard(cardId) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then((res) => res.json());
-  }
-
-  updateUserPicture(avatar) {
-    return fetch(`${this._url}/users/me/avatar`, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify(avatar),
-    }).then(this._checkResponse);
   }
 }
