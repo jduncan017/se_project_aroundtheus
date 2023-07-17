@@ -71,7 +71,7 @@ export class Card {
     });
 
     this._cardTrashBtn.addEventListener("click", () =>
-      this._handleTrashClick(this._cardId)
+      this._handleTrashClick(this)
     );
 
     this._cardImage.addEventListener("click", () => {
@@ -87,8 +87,6 @@ export class Card {
     }
 
     this._renderLikes();
-
-    this._cardLikesCounter.textContent = this._cardLikesArray.length;
   }
 
   _renderLikes() {

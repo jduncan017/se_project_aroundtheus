@@ -70,7 +70,7 @@ const userInfoSelector = {
 
 // Create Classes:
 const userInfo = new UserInfo(userInfoSelector);
-const Api = new userApi({
+const api = new userApi({
   url: "https://around.nomoreparties.co/v1/cohort-3-en",
   headers: {
     authorization: "c1d3050f-9f71-48b4-9235-936056aa4e95",
@@ -78,7 +78,7 @@ const Api = new userApi({
   },
 });
 
-Promise.all([Api.getUserInfo(), Api.getInitialCards()])
+Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, initialCardsArray]) => {
     userInfo.setUserPicture({ avatar: userData.avatar });
     userInfo.setUserInfo({
@@ -102,33 +102,30 @@ Promise.all([Api.getUserInfo(), Api.getInitialCards()])
 /* --------------------------------------- */
 // Variables:
 const confirmDeleteBtn = document.querySelector("#confirm-delete-button");
-function confirmDelete(cardId) {
-  renderLoading(confirmDeleteBtn, "Deleting...");
-  Api.deleteCard(cardId)
-    .then(() => {
-      const cardElement = document.getElementById(cardId);
-      cardElement.remove();
-    })
-    .catch((error) => {
-      console.error(`Error: ${error}`);
-    })
-    .finally(() => {
-      confirmDeletePopup.close();
-      renderLoading(confirmDeleteBtn, "Yes");
-    });
+
+function handleTrashClick(cardInstance) {
+  confirmDeletePopup.open();
+  confirmDeletePopup.setAction(
+    () => {
+      return api
+        .deleteCard(cardInstance.getId())
+        .then(() => {
+          const cardElement = document.getElementById(cardInstance.getId());
+          cardElement.remove();
+          confirmDeletePopup.close();
+        })
+        .catch((error) => {
+          console.error(`Error: ${error}`);
+        });
+    },
+    confirmDeleteBtn,
+    renderLoading
+  );
 }
 
 // Create Popup:
-const confirmDeletePopup = new PopupConfirm(
-  "#confirm-delete-popup",
-  confirmDelete
-);
+const confirmDeletePopup = new PopupConfirm("#confirm-delete-popup");
 confirmDeletePopup.setEventListeners();
-
-// function for deleting cards from the DOM:
-function handleTrashClick(cardId) {
-  confirmDeletePopup.open(cardId);
-}
 
 /* --------------------------------------- */
 /*        PROFILE PICTURE EDIT FORM      */
@@ -138,7 +135,6 @@ const pictureSubmitBtn = document.querySelector("#picture-submit-button");
 const editProfilePictureBtn = document.querySelector(
   ".profile__picture-overlay"
 );
-const profilePicture = document.querySelector(".profile__picture");
 
 // Create Popup:
 const editProfilePictureForm = new PopupWithForm(
@@ -156,15 +152,15 @@ editProfilePictureBtn.addEventListener("click", function () {
 // Handle Form Submission:
 function handlePictureFormSubmit(inputs) {
   renderLoading(pictureSubmitBtn, "Saving...");
-  Api.updateUserPicture({ avatar: inputs.link })
-    .then((res) => {
-      profilePicture.src = res.avatar;
+  api
+    .updateUserPicture({ avatar: inputs.link })
+    .then(() => {
+      editProfilePictureForm.close();
     })
     .catch((error) => {
       console.error(`Error: ${error}`);
     })
     .finally(() => {
-      editProfilePictureForm.close();
       renderLoading(pictureSubmitBtn, "Save");
     });
 }
@@ -193,18 +189,19 @@ editProfileBtn.addEventListener("click", function () {
 // Handle Form Submission:
 function handleProfileFormSubmit(inputs) {
   renderLoading(profileFormSubmitBtn, "Saving...");
-  Api.updateUserInfo({ name: inputs.name, about: inputs.about })
+  api
+    .updateUserInfo({ name: inputs.name, about: inputs.about })
     .then((newUserData) => {
       userInfo.setUserInfo({
         name: newUserData.name,
         about: newUserData.about,
       });
+      editProfileForm.close();
     })
     .catch((error) => {
       console.error(`Error: ${error}`);
     })
     .finally(() => {
-      editProfileForm.close();
       renderLoading(profileFormSubmitBtn, "Save");
     });
 }
@@ -232,16 +229,17 @@ addImageBtn.addEventListener("click", () => {
 // Handle Form Submission:
 function handleImageFormSubmit(inputs) {
   renderLoading(imageFormSubmitBtn, "Saving...");
-  Api.addCard({ name: inputs.name, link: inputs.link })
+  api
+    .addCard({ name: inputs.name, link: inputs.link })
     .then((res) => {
       const newCard = renderCard(res);
       cardsSection.prependItem(newCard);
+      addImagePopup.close();
     })
     .catch((error) => {
       console.error(error);
     })
     .finally(() => {
-      addImagePopup.close();
       renderLoading(imageFormSubmitBtn, "Save");
     });
 }
@@ -260,12 +258,11 @@ function handleCardClick(imageLink, text) {
 function handleLikeClick(card) {
   const method = card.isLiked() ? "unlikeCard" : "likeCard";
 
-  Api[method](card.getId())
+  api[method](card.getId())
     .then((resCard) => {
       card.setLikes(resCard.likes);
     })
     .catch((error) => {
       console.error(`Error: ${error}`);
-      card.setLikes();
     });
 }

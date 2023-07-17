@@ -37,7 +37,10 @@ export default class userApi {
   }
 
   updateUserPicture(avatar) {
-    return this._fetch("/users/me/avatar", "PATCH", avatar);
+    return this._fetch("/users/me/avatar", "PATCH", avatar).then((res) => {
+      const profilePicture = document.querySelector(".profile__picture");
+      profilePicture.src = res.avatar;
+    });
   }
 
   /* --------------------------------------- */
@@ -54,9 +57,9 @@ export default class userApi {
       fetchOptions.body = JSON.stringify(body);
     }
 
-    return fetch(`${this._url}${endpoint}`, fetchOptions).then(
-      this._checkResponse
-    );
+    return fetch(`${this._url}${endpoint}`, fetchOptions)
+      .then(this._checkResponse)
+      .catch((error) => console.error(error));
   }
 
   _checkResponse(res) {
