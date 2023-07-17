@@ -53,7 +53,6 @@ function renderCard(cardData) {
     placeholderImage,
     handleCardClick,
     handleTrashClick,
-    duplicateCardsArray,
     handleLikeClick
   );
   return card.createCard();
@@ -105,7 +104,6 @@ Promise.all([Api.getUserInfo(), Api.getInitialCards()])
 const confirmDeleteBtn = document.querySelector("#confirm-delete-button");
 function confirmDelete(cardId) {
   renderLoading(confirmDeleteBtn, "Deleting...");
-  removeFromImageLinksArray(cardId);
   Api.deleteCard(cardId)
     .then(() => {
       const cardElement = document.getElementById(cardId);
@@ -254,39 +252,6 @@ imagePopup.setEventListeners();
 
 function handleCardClick(imageLink, text) {
   imagePopup.open(imageLink, text);
-}
-
-/* --------------------------------------- */
-/*      SHOW DUPLICATES FUNCTIONALITY      */
-/* --------------------------------------- */
-// array for remembering duplicates
-let duplicateCardsArray = [];
-
-// Add an event listener for the checkbox
-const showDuplicatesCheckbox = document.querySelector(
-  "#show-duplicates-checkbox"
-);
-showDuplicatesCheckbox.addEventListener("change", (event) => {
-  duplicateCardsArray.forEach((cardId) => {
-    const card = document.getElementById(cardId);
-    if (event.target.checked) {
-      card.classList.remove("card_invisible");
-    } else {
-      card.classList.add("card_invisible");
-    }
-  });
-});
-
-// function deletes cards from duplicates array when they are deleted from the server
-function removeFromImageLinksArray(cardId) {
-  // variable definitions
-  const card = document.getElementById(cardId);
-  const cardImage = card.querySelector(".card__image");
-  // remove from duplicateCardsArray
-  duplicateCardsArray = duplicateCardsArray.filter((id) => id !== cardId);
-  Card.cardImageLinks = Card.cardImageLinks.filter((imageLink) => {
-    return imageLink !== cardImage.src;
-  });
 }
 
 /* --------------------------------------- */
