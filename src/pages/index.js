@@ -22,8 +22,8 @@ const formValidators = {};
 let cardsSection = null;
 let userId = null;
 
-function renderLoading(buttonSelector, message) {
-  buttonSelector.textContent = message;
+function renderLoading(button, message) {
+  button.textContent = message;
 }
 
 /* --------------------------------------- */
@@ -105,9 +105,10 @@ const confirmDeleteBtn = document.querySelector("#confirm-delete-button");
 
 function handleTrashClick(cardInstance) {
   confirmDeletePopup.open();
-  confirmDeletePopup.setAction(
-    () => {
-      return api
+  confirmDeletePopup.setAction(() => {
+    renderLoading(confirmDeleteBtn, "Deleting...");
+    return (
+      api
         .deleteCard(cardInstance.getId())
         .then(() => {
           const cardElement = document.getElementById(cardInstance.getId());
@@ -116,11 +117,13 @@ function handleTrashClick(cardInstance) {
         })
         .catch((error) => {
           console.error(`Error: ${error}`);
-        });
-    },
-    confirmDeleteBtn,
-    renderLoading
-  );
+        })
+        .finally(() => {
+          renderLoading(confirmDeleteBtn, "Yes");
+        }),
+      confirmDeleteBtn
+    );
+  });
 }
 
 // Create Popup:

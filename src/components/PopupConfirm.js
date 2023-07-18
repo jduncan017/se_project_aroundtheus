@@ -8,13 +8,8 @@ export default class PopupConfirm extends Popup {
     );
   }
 
-  setAction(action, buttonElement, renderLoading) {
-    this._handleFormSubmit = () => {
-      renderLoading(buttonElement, "Deleting...");
-      action().finally(() => {
-        renderLoading(buttonElement, "Yes");
-      });
-    };
+  setAction(action) {
+    this._handleFormSubmit = action;
   }
 
   setEventListeners() {
@@ -23,10 +18,5 @@ export default class PopupConfirm extends Popup {
       event.preventDefault();
       this._handleFormSubmit();
     });
-  }
-
-  open(objectId) {
-    super.open();
-    this.object = objectId;
   }
 }
