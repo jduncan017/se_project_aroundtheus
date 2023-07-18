@@ -1,4 +1,6 @@
 export class Card {
+  static cardImageLinks = [];
+
   constructor(
     { name, link, owner, _id, likes },
     userId,
@@ -6,6 +8,7 @@ export class Card {
     placeholderImage,
     handleCardClick,
     handleTrashClick,
+    duplicateCardsArray,
     handleLikeClick
   ) {
     this._text = name;
@@ -26,6 +29,7 @@ export class Card {
     this._cardLikeBtn = this._newCard.querySelector(".card__like-button");
     this._cardTrashBtn = this._newCard.querySelector(".card__trash-button");
     this._cardSelector = this._cardTrashBtn.parentElement;
+    this._duplicateCardsArray = duplicateCardsArray;
     this._handleLikeClick = handleLikeClick;
   }
 
@@ -55,9 +59,17 @@ export class Card {
     this._cardTitle.textContent = this._text;
     this._newCard.id = this._cardId;
 
+    this._checkForDuplicates();
     this._setInitialState();
 
     return this._newCard;
+  }
+
+  removeFromImageLinks() {
+    const index = Card.cardImageLinks.indexOf(this._imageLink);
+    if (index > -1) {
+      Card.cardImageLinks.splice(index, 1);
+    }
   }
 
   /* --------------------------------------- */
@@ -77,6 +89,22 @@ export class Card {
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._cardImage.src, this._text);
     });
+  }
+
+  _checkForDuplicates() {
+    const showDuplicatesCheckbox = document.querySelector(
+      "#show-duplicates-checkbox"
+    );
+
+    if (Card.cardImageLinks.includes(this._imageLink)) {
+      if (!showDuplicatesCheckbox.checked) {
+        this._newCard.classList.add("card_invisible");
+      }
+
+      this._duplicateCardsArray.push(this._newCard.id);
+    } else {
+      Card.cardImageLinks.push(this._imageLink);
+    }
   }
 
   _setInitialState() {

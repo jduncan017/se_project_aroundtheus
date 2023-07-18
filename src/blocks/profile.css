@@ -102,8 +102,11 @@
   cursor: pointer;
 }
 
-.profile__add-button {
+.profile__add-button-container {
   margin-left: auto;
+}
+
+.profile__add-button {
   background: transparent url(../images/plus.svg) center no-repeat;
   height: 50px;
   width: 150px;
@@ -113,6 +116,24 @@
 
 .profile__add-button:hover {
   opacity: 0.6;
+  cursor: pointer;
+}
+
+.profile__show-duplicates {
+  margin-top: 12px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 165x;
+  line-height: 1.2;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.profile__show-duplicates:hover {
+  color: rgb(115, 144, 160);
+}
+
+.profile__show-duplicates input[type="checkbox"],
+.profile__show-duplicates label {
   cursor: pointer;
 }
 
