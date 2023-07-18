@@ -16,33 +16,74 @@
       <header class="header page__section">
         <img
           src="<%=require('./images/logo.svg')%>"
-          alt="logo"
+          alt="page-logo"
           class="header__logo"
         />
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            class="profile__picture"
-            src="<%=require('./images/jacques-cousteau.jpg')%>"
-            alt="avatar"
-          />
+          <div class="profile__picture-container">
+            <div class="profile__picture-overlay">
+              <img
+                class="profile__picture-edit-icon"
+                src="<%=require('./images/pen.svg')%>"
+                alt="profile-picture-edit-button"
+              />
+            </div>
+            <img
+              class="profile__picture"
+              src="<%=require('./images/jacques-cousteau.jpg')%>"
+              alt="user-avatar"
+            />
+          </div>
           <div class="profile__info">
             <div class="profile__name">
               <h1 class="profile__name-title">Jacques Cousteau</h1>
               <button class="profile__name-button" type="button"></button>
             </div>
-            <h2 class="profile__job">Explorer</h2>
+            <h2 class="profile__about">Explorer</h2>
           </div>
           <button class="profile__add-button" type="button"></button>
         </section>
         <section class="cards page__section">
           <ul class="cards__list"></ul>
         </section>
-        <!-- PROFILE EDIT popup -->
+        <!-- PROFILE PICTURE EDIT POPUP -->
+        <div class="popup" id="edit-profile-picture-popup">
+          <div class="popup__container">
+            <h1 class="popup__title">Change Profile Picture</h1>
+            <button class="popup__close-button" type="button"></button>
+            <form
+              class="popup__form"
+              id="edit-profile-picture-form"
+              name="edit-profile-picture-form"
+            >
+              <input
+                class="popup__form-input"
+                id="link"
+                name="link"
+                placeholder="Image link"
+                type="url"
+                required
+              />
+              <span class="popup__error" id="link-error"
+                >Error Message Here</span
+              >
+              <button
+                class="popup__submit-button"
+                type="submit"
+                id="picture-submit-button"
+                disabled
+              >
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+        <!-- PROFILE EDIT POPUP -->
         <div class="popup" id="edit-popup">
           <div class="popup__container">
-            <h2 class="popup__title">Edit profile</h2>
+            <h2 class="popup__title">Edit Profile</h2>
             <button class="popup__close-button" type="button"></button>
             <form
               class="popup__form"
@@ -65,27 +106,27 @@
               <input
                 class="popup__form-input"
                 type="text"
-                id="job"
-                name="job"
-                placeholder="Job"
+                id="about"
+                name="about"
+                placeholder="About"
                 minlength="2"
                 maxlength="200"
                 required
               />
-              <span class="popup__error" id="job-error"
+              <span class="popup__error" id="about-error"
                 >Error Message Here</span
               >
               <button
                 class="popup__submit-button"
                 type="submit"
-                id="submit-button"
+                id="profile-submit-button"
               >
                 Save
               </button>
             </form>
           </div>
         </div>
-        <!-- IMAGE ADD popup -->
+        <!-- IMAGE ADD POPUP -->
         <div class="popup" id="add-image-popup">
           <div class="popup__container">
             <h1 class="popup__title">New Place</h1>
@@ -94,14 +135,14 @@
               <input
                 class="popup__form-input"
                 type="text"
-                id="title"
-                name="title"
-                placeholder="Title"
+                id="name"
+                name="name"
+                placeholder="Name"
                 minlength="1"
                 maxlength="30"
                 required
               />
-              <span class="popup__error" id="title-error"
+              <span class="popup__error" id="name-error"
                 >Error Message Here</span
               >
               <input
@@ -115,18 +156,37 @@
               <span class="popup__error" id="link-error"
                 >Error Message Here</span
               >
-              <button class="popup__submit-button" type="submit" disabled>
+              <button
+                class="popup__submit-button"
+                type="submit"
+                id="image-submit-button"
+                disabled
+              >
                 Save
               </button>
             </form>
           </div>
         </div>
-        <!-- IMAGE DISPLAY popup -->
+        <!-- IMAGE DISPLAY POPUP -->
         <div class="popup image-popup" id="image-popup">
           <div class="image-popup__container">
             <img class="image-popup__image" alt="" src="#" />
             <div class="image-popup__title"></div>
             <button class="popup__close-button" type="button"></button>
+          </div>
+        </div>
+        <!-- CONFIRM DELETE POPUP -->
+        <div class="popup confirm-delete-popup" id="confirm-delete-popup">
+          <div class="confirm-delete-popup__container">
+            <h2 class="confirm-delete-popup__title">Are You Sure?</h2>
+            <button class="popup__close-button" type="button"></button>
+            <button
+              class="confirm-popup__submit-button"
+              type="submit"
+              id="confirm-delete-button"
+            >
+              Yes
+            </button>
           </div>
         </div>
       </main>
@@ -145,11 +205,14 @@
         ></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button
-            class="card__like-button"
-            type="button"
-            aria-label="like"
-          ></button>
+          <div class="card__likes-container">
+            <button
+              class="card__like-button"
+              type="button"
+              aria-label="like"
+            ></button>
+            <p class="card__likes-counter">0</p>
+          </div>
         </div>
       </li>
     </template>

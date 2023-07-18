@@ -5,6 +5,10 @@ export default class Popup {
     this._handleEscClose = this._handleEscClose.bind(this);
   }
 
+  /* --------------------------------------- */
+  /*             PUBLIC METHODS              */
+  /* --------------------------------------- */
+
   open() {
     this.popup.classList.add("popup_opened");
     document.addEventListener("keydown", this._handleEscClose);
@@ -14,18 +18,25 @@ export default class Popup {
     this.popup.classList.remove("popup_opened");
     document.removeEventListener("keydown", this._handleEscClose);
   }
-  _handleEscClose(event) {
-    if (event.key === "Escape") {
-      this.close();
-    }
-  }
 
   setEventListeners() {
-    this.closeButton.addEventListener("click", () => this.close());
+    this.closeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      this.close();
+    });
     this.popup.addEventListener("mousedown", (event) => {
       if (event.target === event.currentTarget) {
         this.close();
       }
     });
+  }
+
+  /* --------------------------------------- */
+  /*             PRIVATE METHODS             */
+  /* --------------------------------------- */
+  _handleEscClose(event) {
+    if (event.key === "Escape") {
+      this.close();
+    }
   }
 }

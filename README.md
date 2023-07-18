@@ -1,29 +1,27 @@
 # Project 3: Around The U.S.
 
-## Project Features
+## Overview
 
-- Semantic HTML5
-- Flexbox
-- Grid
-- Flat BEM
+Around The U.S. is a responsive, interactive web application where users can share, like, and delete cards featuring different U.S. locations. The site is built with semantic HTML5, Flexbox, Grid, and styled according to the Flat BEM methodology. It offers form validation and API integration, using JavaScript classes and OOP principles.
 
-### Overview
+## Key Features
 
-- Intro
-- Figma
-- Images
+- **Responsive Design:** The application is fully responsive and provides an optimal user experience on a variety of devices and screen sizes.
+- **API Integration:** The application interacts with a backend server for operations like fetching, uploading, and deleting cards.
+- **Form Validation:** All forms come with built-in validation using JavaScript.
+- **User Authentication:** The image uploads are verified against the user's ID for authenticity and ownership.
+- **Duplicate Management:** An option to hide cards with duplicate image URLs helps keep the page clean and uncluttered.
+- **Interactive UI:** The application supports pop-up modals which can be closed either using a close button or by clicking outside the pop-up.
 
-#### Plans for Improvement
+## Future Enhancements
 
-Some CSS animations to display the cards would be a fun addition. I also think the profile could live in the top right in the header and the "add button" could be moved and made smaller with maybe some other functionality. The site is a little basic and some extra styling could go a long way.
+- **CSS Animations:** Adding animations for card display could significantly enhance user engagement.
+- **UI Improvements:** Shifting the profile to the top right of the header and resizing the "add button" could improve usability. Additional styling would make the site more visually appealing.
 
-**Description**
-This project is made so all the elements are displayed correctly on popular screen sizes. I added media queries at page size increments to keep the page responsive at all screen sizes. The page looks as desired at all screen widths & heights!
+## Project Preview
 
-**Link to Github Codebase**
+[Live Site](https://jduncan017.github.io/se_project_aroundtheus/)
 
-- https://github.com/jduncan017/se_project_aroundtheus
+## Codebase
 
-**Link to live site**
-
-- https://jduncan017.github.io/se_project_aroundtheus/
+Access the [Github Codebase](https://github.com/jduncan017/se_project_aroundtheus) for a detailed view of the project.
