@@ -17,7 +17,8 @@
 
 .card__image:hover {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.8;
+  filter: blur(5px);
 }
 
 .card__info {
@@ -27,8 +28,8 @@
 
 .card__description {
   padding: 0px 20px;
-  background-color: white;
-  color: black;
+  background-color: #22232c;
+  color: rgb(255, 255, 255);
   display: flex;
   justify-content: space-between;
 }
@@ -53,6 +54,7 @@
 
 .card__like-button {
   background: transparent url(../images/heart.svg) no-repeat center;
+  filter: invert(1);
   width: 21px;
   height: 19px;
   border: none;
@@ -63,7 +65,7 @@
   width: 9px;
   height: 13px;
   flex-shrink: 0;
-  color: #000;
+  color: #ffffff;
   font-family: Inter;
   font-size: 13px;
   font-weight: 400;

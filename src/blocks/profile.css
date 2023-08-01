@@ -3,6 +3,7 @@
   padding-bottom: 47.25px;
   display: flex;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .profile__picture-container {
@@ -169,7 +170,7 @@
   }
 
   .profile__about {
-    font-size: 14px;
+    font-size: 16px;
     align-self: center;
   }
 
